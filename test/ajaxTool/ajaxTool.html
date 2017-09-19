@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ajaxTool</title>
+</head>
+<body>
+  <script>
+    /* 申明一个全局变量 */
+    window.$ = {};
+    // 申明一个ajax的方法
+    $.ajax = function (options) {
+      // options对象传参
+      if (!options || typeof options != 'object') return false;
+      /* 设置默认参数 */
+      var url = options.url || localhost.pathName;
+      var type = options.type !== 'post'? 'get':'post';
+      var async = options.async !== false ? true:false;
+      var data = typeof options.data === 'object'?options.data:{};
+      /* 发送的数据需要时键值对的格式 字符串*/
+      var dataStr = '';
+      for(var key in data){
+        dataStr += key + data[key] + '&';
+      }
+      dataStr = dataStr && dataStr.slice(0,-1);
+      /* ajax编程 */
+      var xhr = new XMLHttpRequest();
+      xhr.open(type,type == 'get'?url + '?' + dataStr:url,async);
+      if (type != 'get') {
+        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+      }
+      xhr.send(type == 'get'? null:dataStr);
+      /* 响应 */
+      xhr.onreadystatechange = function(){
+        if(xhr.readystate == 4){
+          /* 通讯完成 */
+          if(xhr.status == 200){
+            /* 成功 */
+            /* 获取后台数据，需要和后台的数据格式对应 */
+            /* 前后端开发的约定：如果Content-Type内容包含xml返回xml格式，包含json，则返回json格式 */
+            var ct = xhr.getResponseHeader('Content-Type');
+            var result = null;
+            if(ct.indexOf('xml')>-1){
+              result = xhr.responseXML;
+            }else if(ct.indexOf('json')>-1){
+              var jsonStr = xhr.responseText;
+              result = jsonStr && JSON.parse(jsonStr);
+            }else{
+              result = xhr.responseText;
+            }
+            //  给成功的业务用
+            options.success && options.success(result);
+
+          }else{
+            /* 失败 */
+            var info = {status:xhr.status,statusText: xhr.statusText};
+            options.error && options.error(info);
+          }
+
+        }
+      }
+    }
+
+  </script>
+</body>
+</html>

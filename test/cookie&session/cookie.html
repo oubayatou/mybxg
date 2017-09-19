@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cookie</title>
+</head>
+<body>
+<script>
+    /*
+    *  cookie 操作 ：设置cookie，获取cookie
+    *  cookie的存储数据量有限制：4KByte 4096个英文字符
+    *  设置cookie
+    *  documen.cookie = 'username=lise';
+    *  cookie分类：
+    * 1、会话cookie，数据存储在内存中，浏览器关闭则消失
+    *2、持久cookie ，数据存储在浏览器指定的固定文件中，当过期之后会消失
+    * cookie的常用属性
+    * expires表示有效期
+    *path表示路径（在父路径下设置的cookie，子路径可以获取到，反之不可以）
+    * */
+    var date = new Date();
+    date.setDate(date.getDate()+3);
+    //console.log(date);//Fri Sep 22 2017 10:02:58 GMT+0800 (中国标准时间)
+    //console.log(date.toGMTString());//Fri, 22 Sep 2017 02:02:58 GMT
+    //document.cookie = 'age=12; expires=' + date.toGMTString();
+    //document.cookie = 'abc = 123; path = /;expires = ' + date.toGMTString() +3;
+    //获取cookie
+    console.log(document.cookie);
+
+
+    function getCookie(key){
+        var all = document.cookie;
+        var result = null;
+        if(all){
+            var kvs = all.split('; ');
+            kvs.forEach(function(item){
+                var kv = item.split('=');
+                if(key == kv[0]){
+                    // 找到了对应的cookie
+                    result = kv[1];
+                    return false;// 终止forEach循环
+                }
+            });
+        }
+        return result;
+    }
+
+    /* 设置cookie */
+    function setCookie(key, value, options) {
+        var cookie = key + '=' + value;
+        for(var key in options){
+            cookie += ';' + key + '=' + options[key];
+        }
+        document.cookie = cookie;
+    }
+    setCookie('hello','nihao',{expires: date.toGMTString(),path:'/'})
+</script>
+</body>
+</html>

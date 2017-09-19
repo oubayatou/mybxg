@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>require.js</title>
+    <!--<script data-main="main.js" src="require.js"></script>-->
+    <!-- data-main指定的是页面的入口文件，即最先执行的文件 也可以通过以下方式require指定入口文件-->
+    <script src="require.js"></script>
+    <script>
+        /* 原理：动态创建script标签，通过该标签的src属性来发出去的请求都是异步的（不阻塞的） */
+        /* require引入入口文件时可以省略后缀名 */
+
+        /* 配置require */
+        require.config({
+
+        });
+        require(['main'],function (m) {
+            console.log(m);
+            m.fn();
+            m.foo();
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

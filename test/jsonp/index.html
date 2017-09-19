@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script type="text/javascript" src="jquery.js"></script>
+  <!-- <script async type="text/javascript" src="http://doc.studyit.com/data.php?flag=1"></script> -->
+  <script type="text/javascript">
+  /*
+  同源策略：
+  ajax不允许跨域获取数据
+  解决跨域获取数据的方案：
+  1、jsonp
+  2、Apache反向代理
+
+  jsonp原理：
+  利用script标签的src属性发送的请求可以跨域获取数据
+
+  */
+
+  // console.log(n);
+  // 回调函数
+  // function hello(data){
+  //   console.log(data);
+  // }
+
+  // 比较方便的做法就是动态创建script标签，然后通过标签的src属性发送跨域请求，并且可以携带参数,后台响应的内容是js代码【函数调用】
+  // var script = document.createElement('script');
+  // var param = '?flag=123&callback=hello';
+  // script.src = 'http://doc.studyit.com/data.php' + param;
+  // var head = document.getElementsByTagName('head')[0];
+  // head.appendChild(script);
+  // --------------------------------------------------------------------
+  // $.ajax({
+  //   url : 'http://doc.studyit.com/data.php',
+  //   jsonp : 'abc',// 该属性的作用就是定制回调函数的key（等号左边的部分）
+  //   jsonpCallback : 'helloworld',// 该属性的作用就是定制回调函数的value（等号后面的部分）
+  //   dataType : 'jsonp',
+  //   data : {flag:123},
+  //   success : function(data){
+  //     console.log(data);
+  //   }
+  // });
+
+  // http://doc.studyit.com/data.php?callback=jQuery1112025613064331916147_1505555830752&flag=123&_=1505555830753
+  // -----------------------------------------------------------------------
+  function ajax(obj){
+    // 默认参数
+    var defaults = {
+      jsonp : 'callback'
+    }
+    // 覆盖默认参数
+    for(var key in obj){
+      defaults[key] = obj[key];
+    }
+
+    // 默认回调函数名称
+    var cbName = 'jQuery' + ('v1.11.1' + Math.random()).replace(/\D/g,'') + '_' + new Date().getTime();
+    if(defaults.jsonpCallback){
+      cbName = defaults.jsonpCallback;
+    }
+
+    // 定义回调函数
+    window[cbName] = function(data){
+      defaults.success(data);
+    }
+
+    // 发送跨域请求
+    var script = document.createElement('script');
+    var param = '';
+    if(defaults.data){
+      for(var key in defaults.data){
+        param += key + '=' + defaults.data[key] + '&';
+      }
+    }
+    script.src = defaults.url + '?' + param + defaults.jsonp + '=' + cbName;
+    var head = document.getElementsByTagName('head')[0];
+    head.appendChild(script);
+  }
+
+  ajax({
+    url : 'http://doc.studyit.com/jsonpData.php',
+    jsonp : 'abc',
+    jsonpCallback : 'hello',
+    data : {flag : 123,uname : 'kitty'},
+    dataType : 'jsonp',
+    success : function(data){
+      console.log(data.username);
+    }
+  });
+
+
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
