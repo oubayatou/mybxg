@@ -34,6 +34,7 @@
     </div>
     
     <script src="/public/assets/jquery/jquery.min.js"></script>
+    <script src="/public/assets/jquery-cookie/jquery.cookie.js"></script>
     <script src="/public/assets/bootstrap/js/bootstrap.min.js"></script>
     <script>
         /* 点击登录按钮 ，发送数据，发送成功则跳转至首页 */
@@ -46,10 +47,11 @@
                 data: $("#loginForm").serialize(),
                 dataType: 'json',
                 success: function (data) {
-                    console.log(data)
+                    //console.log(data)
                     if (data.code == 200) {
-
-                   location.href = '/main/index';
+                        /* 利用session的可以跨页面传递的属性 来将登录页面的信息存储，传递到首页 */
+                        $.cookie('loginInfo',JSON.stringify(data.result),{path:'/'});
+                        location.href = '/main/index';
                     }
                 }
             });
