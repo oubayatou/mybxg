@@ -23,7 +23,7 @@ define(['jquery','template','cookie'],function ($,template) {
 	/* 验证用户是否登录 */
 	var flag = $.cookie('PHPSESSID');
 	//console.log(flag);
-	if(!flag && location.pathname != 'main/login'){
+	if(!flag && location.pathname != '/main/login'){
 		location.href = '/main/login';
 	}
 	var loginInfo = $.cookie('loginInfo');
