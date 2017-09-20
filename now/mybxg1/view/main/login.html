@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>学IT - 后台管理系统</title>
-    <link rel="stylesheet" href="/public/assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/public/assets/font-awesome/css/font-awesome.css">
-    <link rel="stylesheet" href="/public/assets/nprogress/nprogress.css">
-    <link rel="stylesheet" href="/public/less/index.css">
+    <?php include('./view/common/style.html') ?>
 </head>
 <body>
     <!-- 登录 -->
@@ -32,31 +29,9 @@
             </form>
         </div>
     </div>
-    
-    <script src="/public/assets/jquery/jquery.min.js"></script>
-    <script src="/public/assets/jquery-cookie/jquery.cookie.js"></script>
-    <script src="/public/assets/bootstrap/js/bootstrap.min.js"></script>
-    <script>
-        /* 点击登录按钮 ，发送数据，发送成功则跳转至首页 */
-        $("#loginBtn").click(function () {
-
-            console.log($("#loginForm").serialize());
-            $.ajax({
-                url: '/api/login',
-                type: 'post',
-                data: $("#loginForm").serialize(),
-                dataType: 'json',
-                success: function (data) {
-                    //console.log(data)
-                    if (data.code == 200) {
-                        /* 利用session的可以跨页面传递的属性 来将登录页面的信息存储，传递到首页 */
-                        $.cookie('loginInfo',JSON.stringify(data.result),{path:'/'});
-                        location.href = '/main/index';
-                    }
-                }
-            });
-            return false;
-        });
+    <?php include('./view/common/script.html') ?>
+    <script type="text/javascript">
+        require(['login']);
     </script>
 </body>
 </html>

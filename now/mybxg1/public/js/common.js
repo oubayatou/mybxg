@@ -1,8 +1,7 @@
-
-	NProgress.start();
-
-	NProgress.done();
-
+define(['jquery','cookie'],function ($) {
+	// NProgress.start();
+	// NProgress.done();
+	//控制左侧菜单的折叠和展开功能
 	$('.navs ul').prev('a').on('click', function () {
 		$(this).next().slideToggle();
 	});
@@ -34,4 +33,7 @@
 	/* 填充头像信息 */
 	$('.aside .profile img').attr('src',loginInfo.tc_avatar);
 	$('.aside .profile h4').html(loginInfo.tc_name);
+});
+
+
 	

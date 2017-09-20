@@ -1,4 +1,4 @@
-define(['./moudle4'],function (m4) {
+define(['m4'],function (m4) {
     console.log(m4);
     var multiply = function (a,b) {
         return a * b;

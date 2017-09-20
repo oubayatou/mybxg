@@ -12,9 +12,22 @@
 
         /* 配置require */
         require.config({
-
+            baseUrl: './js',//设置查找模块的参考路径
+            paths: {//给文件路径起别名
+                m1: '../module1',
+                m2: '../module2',
+                m3: '../module3',
+                m4: '../moudle4',
+                m5: '../module5',
+                hehe: '../hehe'
+            },
+            shim: {//将非标准模块变成标准模块
+                hehe: {
+                    exports: 'foo'//导出foo函数
+                }
+            }
         });
-        require(['main'],function (m) {
+        require(['../main'],function (m) {
             console.log(m);
             m.fn();
             m.foo();
