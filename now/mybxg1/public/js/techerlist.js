@@ -44,7 +44,7 @@ define(['jquery','template','bootstrap'],function ($,template) {
                     data: {tc_id:tcId},
                     dataType:'json',
                     success: function (data) {
-                        console.log(data);
+                        //console.log(data);
                         var html = template('modalTpl',data.result);
                         $('#modalInfo').html(html)
                         /* 显示弹出窗 */
