@@ -1,4 +1,4 @@
-define(['jquery','template'],function ($,template) {
+define(['jquery','template','bootstrap'],function ($,template) {
     /* 调取后台接口获取数据 */
     $.ajax({
         type: 'get',
@@ -16,6 +16,7 @@ define(['jquery','template'],function ($,template) {
                 var tcId = td.attr('data-tId');
                 var tcStatus = td.attr('data-status');
                 console.log(tcId,tcStatus);
+                /* 启用和注销功能 */
                 $.ajax({
                     url: '/api/teacher/handle',
                     type:'post',
@@ -31,7 +32,26 @@ define(['jquery','template'],function ($,template) {
                             }
                         }
                     }
-                    
+                });
+            });
+            /* 查看讲师 */
+            $('.preview').on('click',function () {
+                var td = $(this).closest('td');
+                var tcId = td.attr('data-tId');
+                $.ajax({
+                    type: 'get',
+                    url: '/api/teacher/view',
+                    data: {tc_id:tcId},
+                    dataType:'json',
+                    success: function (data) {
+                        console.log(data);
+                        var html = template('modalTpl',data.result);
+                        $('#modalInfo').html(html)
+                        /* 显示弹出窗 */
+                        $('#teacherModal').modal();
+                        /* bootrap的modal是bootstrap的js中的方法，而且依赖于jquery */
+
+                    }
                 });
             });
         }
