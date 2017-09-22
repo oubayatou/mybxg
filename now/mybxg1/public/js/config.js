@@ -5,6 +5,8 @@ require.config({
         cookie: 'jquery-cookie/jquery.cookie',
         template: 'artTemplate/template-web',
         bootstrap: 'bootstrap/js/bootstrap',
+        datepicker:'bootstrap-datepicker/js/bootstrap-datepicker.min',
+        language:'bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min',
         common: '../js/common',
         login: '../js/login',
         teacherList: '../js/techerlist',
@@ -14,8 +16,11 @@ require.config({
     shim: {
         bootstrap:{
             deps:['jquery']
+        },
+        language:{
+            deps:['jquery','datepicker']
         }
-
     }
 });
 //require的shim中的兼容非标准模式的文件的依赖关系是deps，是个数组
+/* language是非标准 的require模式，而且依赖于jquery和datepicker */

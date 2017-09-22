@@ -1,4 +1,4 @@
-define(['jquery','template','util'],function ($,template,util) {
+define(['jquery','template','util','datepicker','language'],function ($,template,util) {
     /* 获取url的参数 */
     /* 获取tc_id */
     var tcId = util.qs('tc_id');
@@ -21,6 +21,7 @@ define(['jquery','template','util'],function ($,template,util) {
                     var html = template('teacherTpl',data.result);
                     $('#teacherInfo').html(html);
                     submitForm('/api/teacher/update');
+                    setDatePicker();
                 }
             }
         });
@@ -30,6 +31,7 @@ define(['jquery','template','util'],function ($,template,util) {
         var html = template('teacherTpl',{operate:'添加讲师'});
         $('#teacherInfo').html(html);
         submitForm('/api/teacher/add');
+        setDatePicker();
     }
     function submitForm(url) {
         $('#teacherBtn').click(function () {
@@ -44,6 +46,14 @@ define(['jquery','template','util'],function ($,template,util) {
                     }
                 }
             });
+        });
+    }
+    /* datepicker插件 */
+    function setDatePicker() {
+        $('#datepicker').datepicker({
+            language : 'zh-CN',
+            format : 'yyyy-mm-dd'
+            //其余属性参考datepicker官网
         });
     }
 });
