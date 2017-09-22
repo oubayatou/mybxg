@@ -1,4 +1,4 @@
-define(['jquery','template','util','datepicker','language'],function ($,template,util) {
+define(['jquery','template','util','datepicker','language','validate','form'],function ($,template,util) {
     /* 获取url的参数 */
     /* 获取tc_id */
     var tcId = util.qs('tc_id');
@@ -20,8 +20,8 @@ define(['jquery','template','util','datepicker','language'],function ($,template
                 if(data.code == 200){
                     var html = template('teacherTpl',data.result);
                     $('#teacherInfo').html(html);
-                    submitForm('/api/teacher/update');
                     setDatePicker();
+                    submitForm('/api/teacher/update');
                 }
             }
         });
@@ -30,23 +30,8 @@ define(['jquery','template','util','datepicker','language'],function ($,template
     //    添加讲师信息
         var html = template('teacherTpl',{operate:'添加讲师'});
         $('#teacherInfo').html(html);
-        submitForm('/api/teacher/add');
         setDatePicker();
-    }
-    function submitForm(url) {
-        $('#teacherBtn').click(function () {
-            $.ajax({
-                type:'post',
-                url: url,
-                data:$('#teacherForm').serialize(),
-                dataType:'json',
-                success:function (data) {
-                    if(data.code == 200){
-                        location.href = '/teacher/list';
-                    }
-                }
-            });
-        });
+        submitForm('/api/teacher/add');
     }
     /* datepicker插件 */
     function setDatePicker() {
@@ -54,6 +39,55 @@ define(['jquery','template','util','datepicker','language'],function ($,template
             language : 'zh-CN',
             format : 'yyyy-mm-dd'
             //其余属性参考datepicker官网
+        });
+    }
+    // function submitForm(url) {
+    //     $('#teacherBtn').click(function () {
+    //         $.ajax({
+    //             type:'post',
+    //             url: url,
+    //             data:$('#teacherForm').serialize(),
+    //             dataType:'json',
+    //             success:function (data) {
+    //                 if(data.code == 200){
+    //                     location.href = '/teacher/list';
+    //                 }
+    //             }
+    //         });
+    //     });
+    // }
+
+    /* 使用表单验证和表单提交插件 */
+    function submitForm(url){
+       
+        /* 选中form标签，绑定方法 */
+        $('#teacherForm').validate({
+            sendForm:false,//阻止默认提交
+            valid:function () {
+                /* 提交表单 */
+                $(this).ajaxSubmit({
+                    url:url,
+                    dataType:'json',
+                    success:function (data) {
+                        if(data.code == 200){
+                            location.href = '/teacher/list';
+                        }
+                    }
+                });
+            },
+            description: {
+                tcName:{
+                    required:'讲师名称不能为空'
+                },
+                tcPass:{
+                    required:'密码不能为空',
+                    pattern:'密码必须为六位数字'
+                },
+                tcJoinDate:{
+                    required:'日期不能为空'
+                }
+            }
+            
         });
     }
 });
