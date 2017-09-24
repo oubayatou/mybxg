@@ -10,6 +10,7 @@ require.config({
         validate:'validate/jquery-validate.min',
         form:'jquery-form/jquery.form',
         uploadify:'uploadify/jquery.uploadify',
+        ckeditor:'ckeditor/ckeditor',
         region:'jquery-region/jquery.region',
         common: '../js/common',
         login: '../js/login',
@@ -30,6 +31,9 @@ require.config({
         },
         uploadify:{
             deps:['jquery']
+        },
+        ckeditor:{
+            exports:'CKEDITOR'
         }
     }
 });
