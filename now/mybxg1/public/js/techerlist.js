@@ -1,4 +1,7 @@
-define(['jquery','template','bootstrap'],function ($,template) {
+define(['jquery','template','util','bootstrap'],function ($,template,util) {
+    /* 选中的a标签的样式设置 */
+    // $('.aside .navs a[href="'+location.pathname+'"]').addClass('active');
+    util.setMenu(location.pathname);
     /* 调取后台接口获取数据 */
     $.ajax({
         type: 'get',

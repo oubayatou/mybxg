@@ -17,7 +17,8 @@ require.config({
         teacherList: '../js/techerlist',
         util:'../js/util',
         teacheradd:'../js/teacher-add',
-        settings:'../js/settings'
+        settings:'../js/settings',
+        index:'../js/index'
     },
     shim: {
         bootstrap:{
