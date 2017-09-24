@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="jquery.js"></script>
+<script src="uploadify/jquery.uploadify.js"></script>
+
+<input type="file" id="myfile">
+
+<script>
+    $("#myfile").uploadify({
+        buttonText:'选择文件',
+        fileObjName:'myfile',
+        swf:'./uploadify/uploadify.swf',
+        uploader:'./file.php',
+        onuploadSuccess: function (a,b,c) {
+            console.log(b);
+        }
+    });
+</script>
+</body>
+</html>
