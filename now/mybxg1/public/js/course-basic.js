@@ -17,10 +17,29 @@ define(['jquery','template','util'],function ($, template, util) {
             }else{
                 data.result.operate = '添加课程';
             }
-            console.log(data);
+            //console.log(data);
         //    分析数据，渲染页面
             var html = template('courseBasicTpl',data.result);
             $('#courseBasicInfo').html(html);
+            /* 处理二级下拉联动 */
+            $('#firstType').change(function () {
+            //    获取一级分类id
+                var pid = $(this).val();
+                /* 根据一级分类的id判断查询相应的所有的二级分类 */
+                console.log(pid);
+                $.ajax({
+                    url: '/api/category/child',
+                    type:'get',
+                    data: {cg_id:pid},
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        var tpl = '<option value="">请选择二级分类...</option>{{each list}}<option value="{{$value.cg_id}}">{{$value.cg_name}}</option>{{/each}}';
+                        var html=template.render(tpl,{list:data.result});
+                        $('#secondType').html(html);
+                    }
+                });
+            });
         }
     });
 
