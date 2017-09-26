@@ -30,6 +30,7 @@ define(['jquery','template','util','uploadify','Jcrop','form'],function ($,templ
                     var obj = JSON.parse(b.trim());
                     // console.log(obj);
                     $('.preview img').attr('src',obj.result.path);
+                    $('#cropBtn').attr('data-flag',true).text('保存图片');
                 }
             });
             var img = $('.preview img');
