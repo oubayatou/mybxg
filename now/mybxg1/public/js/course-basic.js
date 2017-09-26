@@ -1,4 +1,4 @@
-define(['jquery','template','util'],function ($, template, util) {
+define(['jquery','template','util','validate','form'],function ($, template, util) {
     /* 设置菜单选中样式 */
     util.setMenu('/course/course_add');
     /* 获取cs_id */
@@ -26,19 +26,37 @@ define(['jquery','template','util'],function ($, template, util) {
             //    获取一级分类id
                 var pid = $(this).val();
                 /* 根据一级分类的id判断查询相应的所有的二级分类 */
-                console.log(pid);
+                //console.log(pid);
                 $.ajax({
                     url: '/api/category/child',
                     type:'get',
                     data: {cg_id:pid},
                     dataType: 'json',
                     success: function (data) {
-                        console.log(data);
+                        //console.log(data);
                         var tpl = '<option value="">请选择二级分类...</option>{{each list}}<option value="{{$value.cg_id}}">{{$value.cg_name}}</option>{{/each}}';
                         var html=template.render(tpl,{list:data.result});
                         $('#secondType').html(html);
                     }
                 });
+            });
+            /* 处理表单提交 */
+            $('#basicForm').validate({
+                sendForm:false,
+                valid:function () {
+                    /* 提交表单 */
+                    $(this).ajaxSubmit({
+                        type:'post',
+                        url: '/api/course/update/basic',
+                        data:{cs_id:csId},
+                        dataType: 'json',
+                        success: function (data) {
+                            // console.log(data);
+                            /* 下一步跳转到封面裁切页面 */
+                            location.href = '/course/picture?cs_id='+data.result.cs_id;
+                        }
+                    })
+                }
             });
         }
     });
