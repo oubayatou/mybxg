@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<title>Jcrop: the jQuery Image Cropping Plugin</title>
+	<link rel="stylesheet" href="css/Jcrop.css">
+  	<script src="js/jquery.min.js"></script>
+	<script src="js/Jcrop.js"></script>
+	<script src="js/jquery.color.js"></script>
+  	<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+	<style>
+		.jcrop-thumb {
+			top: 15px;
+			right: 0px;
+			border: 1px black solid;
+		}
+	</style>
+</head>
+<body>
+
+	<div>
+		<img src="8S.png" id="target">
+	</div>
+	<div id="box" style="width: 200px; height:200px; background-color: #0000cc; position: absolute; right:0;bottom:0;"></div>
+	<script>
+		$('#target').Jcrop({
+			aspectRatio: 1,
+			setSelect: [ 175, 100, 400, 300 ]
+		},function(){
+			/* 设置缩略图 */
+			var jcrop_api = this;
+			thumbnail = this.initComponent('Thumbnailer', { width: 130, height: 130,myThumb:'#box' });
+			/* 监控选取变化 */
+			$('#target').parent().on('cropstart cropmove cropend',function (a,b,c) {
+				console.log(a,b,c);
+			})
+		});
+
+	</script>
+</body>
+</html>
